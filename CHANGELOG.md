@@ -3,6 +3,12 @@
 All notable changes in this project will be documented in this file.
 
 
+## [2.1.0](https://github.com/omnixys/cache/compare/v2.0.2...v2.1.0) (2026-07-02)
+
+### Ticket generator
+
+* **Ticket generator:** add delay Job for Ticket ([](https://github.com/omnixys/cache/commit/579fdb35969206176f6a72df2d4a6e28e9449584))
+
 ## [2.0.2](https://github.com/omnixys/cache/compare/v2.0.1...v2.0.2) (2026-06-24)
 
 ### Dep
