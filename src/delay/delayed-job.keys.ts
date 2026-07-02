@@ -10,5 +10,6 @@ export const DelayedJobKeys = {
 
   ticket: {
     revoke: 'ticket.revoke',
+    generate: 'ticket.generate',
   },
 } as const;

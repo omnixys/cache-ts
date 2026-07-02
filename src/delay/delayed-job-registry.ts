@@ -11,4 +11,11 @@ export interface DelayedJobRegistry {
   [DelayedJobKeys.ticket.revoke]: {
     ticketId: string;
   };
+
+  [DelayedJobKeys.ticket.generate]: {
+    invitationId: string;
+    eventId: string;
+    seatId: string | null;
+    actorId: string;
+  };
 }
