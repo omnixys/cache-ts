@@ -3,6 +3,12 @@
 All notable changes in this project will be documented in this file.
 
 
+## [3.0.0](https://github.com/omnixys/cache/compare/v2.1.0...v3.0.0) (2026-07-15)
+
+### Update
+
+* **Update:** update package ([](https://github.com/omnixys/cache/commit/86f49a415a711cbc73d9ae597aa0d058867fbcfc))
+
 ## [2.1.0](https://github.com/omnixys/cache/compare/v2.0.2...v2.1.0) (2026-07-02)
 
 ### Ticket generator
