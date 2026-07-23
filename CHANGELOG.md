@@ -3,6 +3,12 @@
 All notable changes in this project will be documented in this file.
 
 
+## [3.0.1](https://github.com/omnixys/cache/compare/v3.0.0...v3.0.1) (2026-07-23)
+
+### Deps
+
+* **Deps:** update logger+observability+contracts deps version ([](https://github.com/omnixys/cache/commit/2f42a056bab2e9a655b5dd5a0783df6cdb7ca462))
+
 ## [3.0.0](https://github.com/omnixys/cache/compare/v2.1.0...v3.0.0) (2026-07-15)
 
 ### Update
