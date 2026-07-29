@@ -144,6 +144,23 @@ test('atomic set-if-absent permits only the first replay guard', async () => {
   assert.equal(client.ttls.get('test:replay:ticket-1:2'), 120);
 });
 
+test('raw delete preserves namespacing and publishes invalidation', async () => {
+  const client = createClient();
+  const invalidations = [];
+  const service = createService(client, {
+    async publish(key, operation) {
+      invalidations.push({ key, operation });
+    },
+  });
+  client.values.set('test:feature-flags:workspace-1', 'cached');
+
+  assert.equal(await service.rawDelete('feature-flags:workspace-1'), 1);
+  assert.equal(client.values.has('test:feature-flags:workspace-1'), false);
+  assert.deepEqual(invalidations, [
+    { key: 'test:feature-flags:workspace-1', operation: 'delete' },
+  ]);
+});
+
 test('distributed invalidation propagates canonical request identifiers', async () => {
   const published = [];
   let receive;

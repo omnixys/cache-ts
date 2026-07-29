@@ -176,6 +176,15 @@ export class ValkeyService implements OnModuleDestroy {
     return this.withOperation(() => this.client.get(this.key(key)));
   }
 
+  async rawDelete(key: string): Promise<number> {
+    const namespacedKey = this.key(key);
+    return this.withOperation(async () => {
+      const deleted = await this.client.del(namespacedKey);
+      if (deleted > 0) await this.invalidation?.publish(namespacedKey, 'delete');
+      return deleted;
+    });
+  }
+
   async rawSet(key: string, value: string, ttlSeconds?: number): Promise<void> {
     if (ttlSeconds !== undefined) assertTtl(ttlSeconds);
     const namespacedKey = this.key(key);
