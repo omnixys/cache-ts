@@ -3,6 +3,12 @@
 All notable changes in this project will be documented in this file.
 
 
+## [3.1.1](https://github.com/omnixys/cache-ts/compare/v3.1.0...v3.1.1) (2026-07-30)
+
+### Deps
+
+* **Deps:** fix imports ([](https://github.com/omnixys/cache-ts/commit/3715fe47837ce9feed401f377b92bb9365814fa4))
+
 ## [3.1.0](https://github.com/omnixys/cache/compare/v3.0.1...v3.1.0) (2026-07-30)
 
 ### Cache
