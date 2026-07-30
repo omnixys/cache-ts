@@ -28,6 +28,7 @@
  * - GitHub Release creation
  * - CI-safe (skip-ci on release commit)
  * - pnpm compatible
+ * 
  */
 
 export default {
