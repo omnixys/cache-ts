@@ -3,6 +3,16 @@
 All notable changes in this project will be documented in this file.
 
 
+## [3.1.0](https://github.com/omnixys/cache/compare/v3.0.1...v3.1.0) (2026-07-30)
+
+### Cache
+
+* **Cache:** add namespaced raw deletion ([](https://github.com/omnixys/cache/commit/9cd8a4bc886b8e964d36b500b73295e851ea7481))
+
+### Deps
+
+* **Deps:** fix imports ([](https://github.com/omnixys/cache/commit/48fe2a6a0aa464ab911b69a89a3614e86755fe39))
+
 ## [3.0.1](https://github.com/omnixys/cache/compare/v3.0.0...v3.0.1) (2026-07-23)
 
 ### Deps
