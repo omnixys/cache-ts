@@ -4,7 +4,7 @@ import { DelayedJobRegistry } from './delayed-job-registry.js';
 import { DELAYED_JOB_HANDLER, DELAYED_JOB_METADATA } from './delayed-job.constants.js';
 import { Injectable, OnModuleInit, Optional } from '@nestjs/common';
 import { DiscoveryService, MetadataScanner, Reflector } from '@nestjs/core';
-import { OmnixysLogger } from '@omnixys/logger';
+import { OmnixysLogger } from '@omnixys/logger-ts';
 
 interface HandlerEntry {
   instance: Record<string, any>;

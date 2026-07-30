@@ -3,8 +3,8 @@ import { ValkeyService } from '../service/valkey.service.js';
 import { DelayedJobRegistry } from './delayed-job-registry.js';
 import { DelayedJobEnvelope, DelayedJobSchedule, DelayedJobStatus } from './delayed-job.type.js';
 import { Injectable, Optional } from '@nestjs/common';
-import { ContextAccessor } from '@omnixys/context';
-import { OmnixysLogger } from '@omnixys/logger';
+import { ContextAccessor } from '@omnixys/context-ts';
+import { OmnixysLogger } from '@omnixys/logger-ts';
 import { randomUUID } from 'node:crypto';
 
 const DEFAULT_STREAM = 'delayed:jobs';

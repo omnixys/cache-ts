@@ -1,6 +1,6 @@
 import { ValkeyService } from './valkey.service.js';
 import { Injectable } from '@nestjs/common';
-import { CacheObservabilityService } from '@omnixys/observability';
+import { CacheObservabilityService } from '@omnixys/observability-ts';
 
 @Injectable()
 export class ValkeyRateLimitService {

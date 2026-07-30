@@ -1,4 +1,4 @@
-import type { CreatePendingUserDTO } from '@omnixys/contracts';
+import type { CreatePendingUserDTO } from '@omnixys/contracts-ts';
 
 /** Structural subset implemented by Zod and other parse-based schema libraries. */
 export interface CacheValueSchema<T> {

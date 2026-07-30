@@ -1,7 +1,7 @@
 import { VALKEY_PUB, VALKEY_SUB } from '../core/cache-constants.js';
 import { Inject, Injectable, OnModuleDestroy, Optional } from '@nestjs/common';
-import { OmnixysLogger } from '@omnixys/logger';
-import { CacheTrace } from '@omnixys/observability';
+import { OmnixysLogger } from '@omnixys/logger-ts';
+import { CacheTrace } from '@omnixys/observability-ts';
 import type { ValkeyClientType } from '@valkey/client';
 
 @Injectable()

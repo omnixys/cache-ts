@@ -1,7 +1,7 @@
 import { ValkeyService } from './valkey.service.js';
 import { Injectable, Optional } from '@nestjs/common';
-import { OmnixysLogger } from '@omnixys/logger';
-import { CacheObservabilityService } from '@omnixys/observability';
+import { OmnixysLogger } from '@omnixys/logger-ts';
+import { CacheObservabilityService } from '@omnixys/observability-ts';
 
 export interface StreamMessage<T = unknown> {
   id: string;

@@ -31,7 +31,7 @@ import { DiscoveryModule } from '@nestjs/core';
 import {
   CacheMetricsService,
   CacheObservabilityService,
-} from '@omnixys/observability';
+} from '@omnixys/observability-ts';
 import { createClient, type ValkeyClientType } from '@valkey/client';
 
 function buildClientOptions(options: ValkeyModuleOptions) {

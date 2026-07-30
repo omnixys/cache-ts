@@ -4,9 +4,9 @@ import type { CacheSerializer } from '../core/cache-serializer.js';
 import type { ValkeyKeyDefinition, ValkeyKeyValue } from '../keys/valkey.keys.js';
 import { CacheInvalidationService } from './cache-invalidation.service.js';
 import { Inject, Injectable, OnModuleDestroy, Optional } from '@nestjs/common';
-import { ContextAccessor } from '@omnixys/context';
-import { OmnixysLogger } from '@omnixys/logger';
-import { CacheMetricsService, CacheObservabilityService } from '@omnixys/observability';
+import { ContextAccessor } from '@omnixys/context-ts';
+import { OmnixysLogger } from '@omnixys/logger-ts';
+import { CacheMetricsService, CacheObservabilityService } from '@omnixys/observability-ts';
 import type { ValkeyClientType } from '@valkey/client';
 import { randomUUID } from 'node:crypto';
 

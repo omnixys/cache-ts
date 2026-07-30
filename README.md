@@ -1,4 +1,4 @@
-# @omnixys/cache
+# @omnixys/cache-ts
 
 Cache infrastructure module for Omnixys microservices.
 
@@ -26,7 +26,7 @@ import {
   CacheEvent,
   CacheTopics,
   CacheEventContext,
-} from "@omnixys/cache";
+} from "@omnixys/cache-ts";
 
 @CacheHandler("InvitationHandler")
 export class InvitationHandler {

@@ -1,8 +1,8 @@
 import { VALKEY_OPTIONS, VALKEY_PUB, VALKEY_SUB } from '../core/cache-constants.js';
 import type { ValkeyModuleOptions } from '../core/cache-options.js';
 import { Inject, Injectable, OnModuleDestroy, OnModuleInit, Optional } from '@nestjs/common';
-import { ContextAccessor } from '@omnixys/context';
-import { OmnixysLogger } from '@omnixys/logger';
+import { ContextAccessor } from '@omnixys/context-ts';
+import { OmnixysLogger } from '@omnixys/logger-ts';
 import type { ValkeyClientType } from '@valkey/client';
 
 export type CacheInvalidationOperation = 'delete' | 'set';
