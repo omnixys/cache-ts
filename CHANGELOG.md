@@ -3,6 +3,16 @@
 All notable changes in this project will be documented in this file.
 
 
+## [3.2.0](https://github.com/omnixys/cache-ts/compare/v3.1.1...v3.2.0) (2026-08-01)
+
+### Cache
+
+* **Cache:** add tenant membership cache key ([](https://github.com/omnixys/cache-ts/commit/7e42b72c4f48fc2eb3bfea8ab46e81c947768a7a))
+
+### Deps
+
+* **Deps:** update omnixs package deps ([](https://github.com/omnixys/cache-ts/commit/fa823cba92e25f15fc084002d2183bbd0639499b))
+
 ## [3.1.1](https://github.com/omnixys/cache-ts/compare/v3.1.0...v3.1.1) (2026-07-30)
 
 ### Deps
