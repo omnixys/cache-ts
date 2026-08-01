@@ -56,6 +56,7 @@ export function createKey<T = unknown, const Prefix extends string = string>(
 export const ValkeyKey = {
   device: createKey('device'),
   ticket: createKey('ticket'),
+  tenantMembership: createKey('tenant:membership', { ttlSeconds: 45 }),
   pendingContact: createKey<CreatePendingUserDTO>('pending-contact', {
     ttlSeconds: 900,
   }),
