@@ -3,6 +3,20 @@
 All notable changes in this project will be documented in this file.
 
 
+## [3.3.0](https://github.com/omnixys/cache-ts/compare/v3.2.0...v3.3.0) (2026-08-24)
+
+### Agent
+
+* **Agent:** add repository development instructions ([](https://github.com/omnixys/cache-ts/commit/3aeb3c2125b69f670c7f9631cbbb5a3ddeb1398f))
+
+### Cache
+
+* **Cache:** log errors via OmnixysLogger on all exception paths ([](https://github.com/omnixys/cache-ts/commit/f6fd12b57e33ab925bcd7294e507047ec9b78d8f))
+
+### Context
+
+* **Context:** update dependency ([](https://github.com/omnixys/cache-ts/commit/052185972f021ae89ddef2a710c61e7012614f40))
+
 ## [3.2.0](https://github.com/omnixys/cache-ts/compare/v3.1.1...v3.2.0) (2026-08-01)
 
 ### Cache
