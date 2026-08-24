@@ -23,13 +23,16 @@ export class DelayedJobWorker implements OnModuleInit, OnModuleDestroy {
   private running = false;
   private inFlight = 0;
   private loop?: Promise<void>;
+  private readonly log;
 
   constructor(
     private readonly streamService: ValkeyStreamService,
     private readonly registry: DelayedJobRegistryService,
     @Optional() private readonly jobs?: DelayedJobService,
     @Optional() private readonly logger?: OmnixysLogger,
-  ) {}
+  ) {
+    this.log = this.logger?.log(this.constructor.name);
+  }
 
   async onModuleInit(): Promise<void> {
     await this.start();
@@ -69,7 +72,15 @@ export class DelayedJobWorker implements OnModuleInit, OnModuleDestroy {
     const deadline = Date.now() + timeoutMs;
     while (this.inFlight > 0) {
       if (Date.now() >= deadline) {
-        throw new Error(`Delayed job drain timed out after ${timeoutMs}ms`);
+        const error = new Error(
+          `Delayed job drain timed out after ${timeoutMs}ms`,
+        );
+        this.log?.error('Delayed job drain timed out', {
+          timeoutMs,
+          inFlight: this.inFlight,
+          error,
+        });
+        throw error;
       }
       await sleep(10);
     }
@@ -118,9 +129,7 @@ export class DelayedJobWorker implements OnModuleInit, OnModuleDestroy {
         }
       } catch (error) {
         if (!this.running) break;
-        this.logger
-          ?.child(DelayedJobWorker.name)
-          .error('Worker loop failed', { error });
+        this.log?.error('Worker loop failed', { error });
         await sleep(1_000);
       }
     }
@@ -135,7 +144,7 @@ export class DelayedJobWorker implements OnModuleInit, OnModuleDestroy {
       await this.jobs!.complete(job);
     } catch (error) {
       await this.jobs!.fail(job, error);
-      this.logger?.child(DelayedJobWorker.name).error('Delayed job failed', {
+      this.log?.error('Delayed job failed', {
         error,
         jobId: job.id,
         jobType: job.type,
@@ -159,13 +168,11 @@ export class DelayedJobWorker implements OnModuleInit, OnModuleDestroy {
       );
       await this.streamService.ack(STREAM, this.group, id);
     } catch (error) {
-      this.logger
-        ?.child(DelayedJobWorker.name)
-        .error('Legacy delayed job failed', {
-          error,
-          jobId: job.id,
-          jobType: job.type,
-        });
+      this.log?.error('Legacy delayed job failed', {
+        error,
+        jobId: job.id,
+        jobType: job.type,
+      });
     } finally {
       this.inFlight -= 1;
     }

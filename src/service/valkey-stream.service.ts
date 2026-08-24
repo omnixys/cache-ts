@@ -10,11 +10,15 @@ export interface StreamMessage<T = unknown> {
 
 @Injectable()
 export class ValkeyStreamService {
+  private readonly log;
+
   constructor(
     private readonly valkey: ValkeyService,
     private readonly observability: CacheObservabilityService,
     @Optional() private readonly logger?: OmnixysLogger,
-  ) {}
+  ) {
+    this.log = this.logger?.log(this.constructor.name);
+  }
 
   /**
    * 🔥 Ensure consumer group exists (idempotent)
@@ -34,6 +38,7 @@ export class ValkeyStreamService {
         return;
       }
 
+      this.log?.error('Valkey stream group creation failed', { stream, group, error: err });
       throw err;
     }
   }

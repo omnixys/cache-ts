@@ -9,12 +9,15 @@ export class ValkeyPubSubService implements OnModuleDestroy {
   private readonly channels = new Set<string>();
   private activeHandlers = 0;
   private closing = false;
+  private readonly log;
 
   constructor(
     @Optional() @Inject(VALKEY_PUB) private readonly publisher: ValkeyClientType | null,
     @Optional() @Inject(VALKEY_SUB) private readonly subscriber: ValkeyClientType | null,
     @Optional() private readonly logger?: OmnixysLogger,
-  ) {}
+  ) {
+    this.log = this.logger?.log(this.constructor.name);
+  }
 
   async publish(channel: string, payload: unknown): Promise<void> {
     this.ensurePubSubEnabled();
@@ -36,9 +39,7 @@ export class ValkeyPubSubService implements OnModuleDestroy {
           await handler(JSON.parse(message) as T);
         });
       } catch (error) {
-        this.logger
-          ?.child(ValkeyPubSubService.name)
-          .error('Pub/Sub message handler failed', { channel, error });
+        this.log?.error('Pub/Sub message handler failed', { channel, error });
       } finally {
         this.activeHandlers -= 1;
       }
@@ -75,7 +76,13 @@ export class ValkeyPubSubService implements OnModuleDestroy {
     const deadline = Date.now() + timeoutMs;
     while (this.activeHandlers > 0) {
       if (Date.now() >= deadline) {
-        throw new Error(`Valkey Pub/Sub drain timed out after ${timeoutMs}ms`);
+        const error = new Error(`Valkey Pub/Sub drain timed out after ${timeoutMs}ms`);
+        this.log?.error('Valkey Pub/Sub drain timed out', {
+          timeoutMs,
+          activeHandlers: this.activeHandlers,
+          error,
+        });
+        throw error;
       }
       await new Promise((resolve) => setTimeout(resolve, 10));
     }
@@ -100,10 +107,16 @@ export class ValkeyPubSubService implements OnModuleDestroy {
 
   private ensurePubSubEnabled(): void {
     if (!this.publisher || !this.subscriber) {
+      this.log?.error('Valkey Pub/Sub is not enabled', {
+        reason: 'pub_sub_disabled',
+      });
       throw new Error(
         'Valkey Pub/Sub is not enabled. Set pubSub.enabled=true in ValkeyModule options.',
       );
     }
-    if (this.closing) throw new Error('Valkey Pub/Sub is closing');
+    if (this.closing) {
+      this.log?.error('Valkey Pub/Sub operation rejected while closing');
+      throw new Error('Valkey Pub/Sub is closing');
+    }
   }
 }

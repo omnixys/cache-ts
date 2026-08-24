@@ -14,13 +14,16 @@ interface HandlerEntry {
 @Injectable()
 export class DelayedJobRegistryService implements OnModuleInit {
   private readonly handlers = new Map<keyof DelayedJobRegistry, HandlerEntry>();
+  private readonly log;
 
   constructor(
     private readonly discovery: DiscoveryService,
     private readonly scanner: MetadataScanner,
     private readonly reflector: Reflector,
     @Optional() private readonly logger?: OmnixysLogger,
-  ) {}
+  ) {
+    this.log = this.logger?.log(this.constructor.name);
+  }
 
   onModuleInit() {
     this.scanHandlers();
@@ -56,6 +59,12 @@ export class DelayedJobRegistryService implements OnModuleInit {
         if (this.handlers.has(type)) {
           const existing = this.handlers.get(type)!;
 
+          this.log?.error('Duplicate delayed job handler registration', {
+            jobType: type,
+            existingHandler: `${existing.instance.constructor.name}.${existing.methodName}`,
+            newHandler: `${instance.constructor.name}.${methodName}`,
+          });
+
           throw new Error(
             `Duplicate delayed job handler for "${type}"\n` +
               `Existing: ${existing.instance.constructor.name}.${existing.methodName}\n` +
@@ -80,9 +89,7 @@ export class DelayedJobRegistryService implements OnModuleInit {
     const entry = this.handlers.get(type);
 
     if (!entry) {
-      this.logger
-        ?.child(DelayedJobRegistryService.name)
-        .error('Delayed job handler is missing', { jobType: type });
+      this.log?.error('Delayed job handler is missing', { jobType: type });
       throw new Error(`No delayed job handler registered for "${type}"`);
     }
 

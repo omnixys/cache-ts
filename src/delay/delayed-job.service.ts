@@ -12,19 +12,31 @@ const RECORD_TTL_SECONDS = 7 * 24 * 60 * 60;
 
 @Injectable()
 export class DelayedJobService {
+  private readonly log;
+
   constructor(
     private readonly streamService: ValkeyStreamService,
     @Optional() private readonly valkey?: ValkeyService,
     @Optional() private readonly logger?: OmnixysLogger,
-  ) {}
+  ) {
+    this.log = this.logger?.log(this.constructor.name);
+  }
 
   async schedule<T extends keyof DelayedJobRegistry>(
     input: DelayedJobSchedule<T>,
   ): Promise<string> {
     if (!Number.isFinite(input.delayMs) || input.delayMs < 0) {
+      this.log?.error('Delayed job schedule rejected', {
+        reason: 'invalid_delay',
+        delayMs: input.delayMs,
+      });
       throw new RangeError('Delayed job delayMs must be a finite non-negative number');
     }
     if (input.maxRetries !== undefined && input.maxRetries < 0) {
+      this.log?.error('Delayed job schedule rejected', {
+        reason: 'invalid_max_retries',
+        maxRetries: input.maxRetries,
+      });
       throw new RangeError('Delayed job maxRetries must be non-negative');
     }
 
@@ -81,6 +93,11 @@ export class DelayedJobService {
 
   async retry(id: string, delayMs = 0): Promise<boolean> {
     if (!Number.isFinite(delayMs) || delayMs < 0) {
+      this.log?.error('Delayed job retry rejected', {
+        reason: 'invalid_retry_delay',
+        jobId: id,
+        delayMs,
+      });
       throw new RangeError('Delayed job retry delay must be non-negative');
     }
     const job = await this.status(id);
@@ -107,7 +124,8 @@ export class DelayedJobService {
     if (!raw) return null;
     try {
       return JSON.parse(raw) as DelayedJobStatus;
-    } catch {
+    } catch (error) {
+      this.log?.error('Delayed job record is corrupted', { jobId: id, error });
       return null;
     }
   }

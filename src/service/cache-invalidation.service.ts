@@ -22,13 +22,16 @@ export type CacheInvalidationHandler = (event: CacheInvalidationEvent) => void |
 export class CacheInvalidationService implements OnModuleInit, OnModuleDestroy {
   private readonly handlers = new Set<CacheInvalidationHandler>();
   private subscribed = false;
+  private readonly log;
 
   constructor(
     @Inject(VALKEY_OPTIONS) private readonly options: ValkeyModuleOptions,
     @Optional() @Inject(VALKEY_PUB) private readonly publisher?: ValkeyClientType | null,
     @Optional() @Inject(VALKEY_SUB) private readonly subscriber?: ValkeyClientType | null,
     @Optional() private readonly logger?: OmnixysLogger,
-  ) {}
+  ) {
+    this.log = this.logger?.log(this.constructor.name);
+  }
 
   async onModuleInit(): Promise<void> {
     if (!this.options.invalidation?.enabled || !this.subscriber) return;
@@ -38,9 +41,7 @@ export class CacheInvalidationService implements OnModuleInit, OnModuleDestroy {
         const event = JSON.parse(raw) as CacheInvalidationEvent;
         for (const handler of this.handlers) await handler(event);
       } catch (error) {
-        this.logger
-          ?.child(CacheInvalidationService.name)
-          .error('Cache invalidation event rejected', { error });
+        this.log?.error('Cache invalidation event rejected', { error });
       }
     });
     this.subscribed = true;

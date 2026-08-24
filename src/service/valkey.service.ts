@@ -56,6 +56,7 @@ export class ValkeyService implements OnModuleDestroy {
   private activeOperations = 0;
   private closing = false;
   private readonly drainWaiters = new Set<() => void>();
+  private readonly log;
 
   constructor(
     @Inject(VALKEY_CLIENT)
@@ -68,7 +69,9 @@ export class ValkeyService implements OnModuleDestroy {
     private readonly metrics: CacheMetricsService,
     @Optional() private readonly invalidation?: CacheInvalidationService,
     @Optional() private readonly logger?: OmnixysLogger,
-  ) {}
+  ) {
+    this.log = this.logger?.log(this.constructor.name);
+  }
 
   /** Returns the fully namespaced key used by the backing store. */
   key(key: string): string {
@@ -157,9 +160,7 @@ export class ValkeyService implements OnModuleDestroy {
   async ttl(key: string): Promise<number> {
     const namespacedKey = this.key(key);
     return this.withOperation(async () =>
-      this.observability.trace('ttl', namespacedKey, async () =>
-        this.client.ttl(namespacedKey),
-      ),
+      this.observability.trace('ttl', namespacedKey, async () => this.client.ttl(namespacedKey)),
     );
   }
 
@@ -248,6 +249,7 @@ export class ValkeyService implements OnModuleDestroy {
         latencyMs: Date.now() - startedAt,
       };
     } catch (error) {
+      this.log?.error('Cache health check failed', { error });
       return {
         healthy: false,
         status: 'unavailable',
@@ -266,7 +268,13 @@ export class ValkeyService implements OnModuleDestroy {
       };
       const timeout = setTimeout(() => {
         this.drainWaiters.delete(waiter);
-        reject(new Error(`Cache drain timed out after ${timeoutMs}ms`));
+        const error = new Error(`Cache drain timed out after ${timeoutMs}ms`);
+        this.log?.error('Cache drain timed out', {
+          timeoutMs,
+          activeOperations: this.activeOperations,
+          error,
+        });
+        reject(error);
       }, timeoutMs);
       timeout.unref?.();
       this.drainWaiters.add(waiter);
@@ -313,6 +321,10 @@ export class ValkeyService implements OnModuleDestroy {
           return keyDef.schema.parse(parsed) as T;
         } catch (cause) {
           this.metrics.error();
+          this.log?.error('Cached value failed schema validation', {
+            key: namespacedKey,
+            error: cause,
+          });
           throw new CacheValidationError(namespacedKey, { cause });
         }
       }),
@@ -335,6 +347,10 @@ export class ValkeyService implements OnModuleDestroy {
       try {
         validated = keyDef.schema.parse(value);
       } catch (cause) {
+        this.log?.error('Cache value failed schema validation before write', {
+          key: namespacedKey,
+          error: cause,
+        });
         throw new CacheValidationError(namespacedKey, { cause });
       }
     }
@@ -355,14 +371,15 @@ export class ValkeyService implements OnModuleDestroy {
   }
 
   private async withOperation<T>(operation: () => Promise<T>): Promise<T> {
-    if (this.closing) throw new Error('Cache connection is closing');
+    if (this.closing) {
+      this.log?.error('Cache operation rejected while connection is closing');
+      throw new Error('Cache connection is closing');
+    }
     this.activeOperations += 1;
     try {
       return await operation();
     } catch (error) {
-      this.logger?.child(ValkeyService.name).error('Cache operation failed', {
-        error,
-      });
+      this.log?.error('Cache operation failed', { error });
       throw error;
     } finally {
       this.activeOperations -= 1;
