@@ -3,6 +3,12 @@
 All notable changes in this project will be documented in this file.
 
 
+## [3.3.1](https://github.com/omnixys/cache-ts/compare/v3.3.0...v3.3.1) (2026-08-28)
+
+### Deps
+
+* **Deps:** update contracts-ts ([](https://github.com/omnixys/cache-ts/commit/f3ab410eeae4d31e6f488fcb1f9c576b7f753891))
+
 ## [3.3.0](https://github.com/omnixys/cache-ts/compare/v3.2.0...v3.3.0) (2026-08-24)
 
 ### Agent
