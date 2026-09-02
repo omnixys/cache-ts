@@ -9,7 +9,7 @@
 
 - Kind: Shared Package
 - Package: `@omnixys/cache-ts` (version: 3.2.0)
-- Runtime: Node >=20 (pnpm >=10.33.0)
+- Runtime: Node >=26.8.1 (pnpm >=11.24.0)
 - Description: Omnixys cache package for TypeScript (Redis/Valkey).
 - Architecture: src/ cache client
 - Database: n/a; Migrations: n/a
