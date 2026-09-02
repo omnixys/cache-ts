@@ -3,6 +3,26 @@
 All notable changes in this project will be documented in this file.
 
 
+## [4.0.0](https://github.com/omnixys/cache-ts/compare/v3.3.1...v4.0.0) (2026-09-02)
+
+### Ci
+
+* **Ci:** add missing labeler and dependabot config to match contracts ([](https://github.com/omnixys/cache-ts/commit/b8c12b5b59c4ef365cce367ab1c4b83e5e7c66d0))
+* **Ci:** add PR build check workflow for main ([](https://github.com/omnixys/cache-ts/commit/eec357a67bba13f67b0898ac1e47f75107f9196f))
+* **Ci:** add npm registry auth before install in release workflow ([](https://github.com/omnixys/cache-ts/commit/37f48d035b8f3c3fcd0dc7ffdfa2e325a188d733))
+
+### Deps
+
+* **Deps:** update omnixys deps ([](https://github.com/omnixys/cache-ts/commit/f0a3bd4a55326b9ddf09590e01626095c0658d71))
+
+### Other
+
+* **Other:** Merge pull request #1 from omnixys/migration/uuid-v7 ([](https://github.com/omnixys/cache-ts/commit/f168f9002e54ce23a776533b5646659dceee7207)), closes [#1](https://github.com/omnixys/cache-ts/issues/1)
+
+### Runtime
+
+* **Runtime:** require node 26.8.1 and pnpm 11.24.0 ([](https://github.com/omnixys/cache-ts/commit/5ac8c2d43c0c8f79f6290636bb2f515100b3ba35))
+
 ## [3.3.1](https://github.com/omnixys/cache-ts/compare/v3.3.0...v3.3.1) (2026-08-28)
 
 ### Deps
