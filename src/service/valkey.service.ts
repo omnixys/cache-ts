@@ -70,7 +70,7 @@ export class ValkeyService implements OnModuleDestroy {
     @Optional() private readonly invalidation?: CacheInvalidationService,
     @Optional() private readonly logger?: OmnixysLogger,
   ) {
-    this.log = this.logger?.log(this.constructor.name);
+    this.log = this.logger?.log(this.constructor.name, 'package:@omnixys/cache-ts');
   }
 
   /** Returns the fully namespaced key used by the backing store. */

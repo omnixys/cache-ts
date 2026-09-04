@@ -17,7 +17,7 @@ export class ValkeyStreamService {
     private readonly observability: CacheObservabilityService,
     @Optional() private readonly logger?: OmnixysLogger,
   ) {
-    this.log = this.logger?.log(this.constructor.name);
+    this.log = this.logger?.log(this.constructor.name, 'package:@omnixys/cache-ts');
   }
 
   /**

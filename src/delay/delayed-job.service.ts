@@ -19,7 +19,7 @@ export class DelayedJobService {
     @Optional() private readonly valkey?: ValkeyService,
     @Optional() private readonly logger?: OmnixysLogger,
   ) {
-    this.log = this.logger?.log(this.constructor.name);
+    this.log = this.logger?.log(this.constructor.name, 'package:@omnixys/cache-ts');
   }
 
   async schedule<T extends keyof DelayedJobRegistry>(

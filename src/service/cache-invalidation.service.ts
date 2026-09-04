@@ -30,7 +30,7 @@ export class CacheInvalidationService implements OnModuleInit, OnModuleDestroy {
     @Optional() @Inject(VALKEY_SUB) private readonly subscriber?: ValkeyClientType | null,
     @Optional() private readonly logger?: OmnixysLogger,
   ) {
-    this.log = this.logger?.log(this.constructor.name);
+    this.log = this.logger?.log(this.constructor.name, 'package:@omnixys/cache-ts');
   }
 
   async onModuleInit(): Promise<void> {

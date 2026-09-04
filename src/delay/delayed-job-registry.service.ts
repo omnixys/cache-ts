@@ -22,7 +22,7 @@ export class DelayedJobRegistryService implements OnModuleInit {
     private readonly reflector: Reflector,
     @Optional() private readonly logger?: OmnixysLogger,
   ) {
-    this.log = this.logger?.log(this.constructor.name);
+    this.log = this.logger?.log(this.constructor.name, 'package:@omnixys/cache-ts');
   }
 
   onModuleInit() {
