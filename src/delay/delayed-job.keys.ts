@@ -8,6 +8,12 @@ export const DelayedJobKeys = {
     expire: 'invitation.expire',
   },
 
+  guest: {
+    confirmation: {
+      remind: 'guest.confirmation.remind',
+    },
+  },
+
   ticket: {
     revoke: 'ticket.revoke',
     generate: 'ticket.generate',

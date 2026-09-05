@@ -8,6 +8,12 @@ export interface DelayedJobRegistry {
     invitationId: string;
   };
 
+  [DelayedJobKeys.guest.confirmation.remind]: {
+    invitationId: string;
+    actorId?: string;
+    preset?: string;
+  };
+
   [DelayedJobKeys.ticket.revoke]: {
     ticketId: string;
   };
