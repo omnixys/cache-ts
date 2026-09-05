@@ -3,6 +3,12 @@
 All notable changes in this project will be documented in this file.
 
 
+## [4.2.0](https://github.com/omnixys/cache-ts/compare/v4.1.0...v4.2.0) (2026-09-05)
+
+### Cache
+
+* **Cache:** add guest confirmation remind delayed job key ([](https://github.com/omnixys/cache-ts/commit/f6b09a75912004444cb1ed1f044bf808c93a0902))
+
 ## [4.1.0](https://github.com/omnixys/cache-ts/compare/v4.0.0...v4.1.0) (2026-09-04)
 
 ### Log
